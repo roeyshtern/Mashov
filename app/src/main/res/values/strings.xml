@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Mashov</string>
+    <string name="bt_login">login</string>
+    <string name="bt_register">register</string>
+    <string name="rl_hint_first_name">First name</string>
+    <string name="rl_hint_last_name">Last name</string>
+    <string name="rl_hint_username">Username</string>
+    <string name="rl_hint_phone">Phone</string>
+    <string name="rl_hint_email">Email</string>
+    <string name="rl_hint_password">Password</string>
+    <string name="rl_hint_password_again">Password again</string>
+    <string name="rl_radio_button_male">male</string>
+    <string name="rl_radio_button_female">female</string>
+    <string name="rl_radio_button_student">student</string>
+    <string name="rl_radio_button_teacher">teacher</string>
+    <string name="rl_hint_birth_date">Pick birth date</string>
+</resources>
