@@ -28,11 +28,13 @@
             android:id="@+id/am_bt_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="openLoginActivity"
             android:text="@string/bt_login"/>
         <Button
             android:id="@+id/am_bt_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="openRegisterActivity"
             android:text="@string/bt_register"/>
     </LinearLayout>
 </RelativeLayout>

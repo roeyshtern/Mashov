@@ -3,117 +3,176 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
 
+
     <ImageView
         android:id="@+id/rl_image"
         android:src="@drawable/logo"
         android:layout_width="wrap_content"
         android:layout_height="72dp"
-        android:layout_gravity="center_horizontal"/>
-    <LinearLayout
-        android:orientation="vertical"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"/>
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="15dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp">
+        android:layout_below="@id/rl_image">
 
         <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_weight="2">
-            <EditText
-                android:id="@+id/rl_input_first_name"
-                android:layout_width="wrap_content"
+            android:paddingTop="15dp"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textPersonName"
-                android:hint="@string/rl_hint_first_name"/>
+                android:orientation="horizontal"
+                android:layout_weight="2">
+                <EditText
+                    android:id="@+id/rl_input_first_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="textPersonName"
+                    android:hint="@string/rl_hint_first_name"/>
+
+                <EditText
+                    android:id="@+id/rl_input_last_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:inputType="textPersonName"
+                    android:hint="@string/rl_hint_last_name"/>
+
+            </LinearLayout>
 
             <EditText
-                android:id="@+id/rl_input_last_name"
+                android:id="@+id/rl_input_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="@string/rl_hint_username"/>
+
+            <EditText
+                android:id="@+id/rl_input_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="@string/rl_hint_email"/>
+
+            <EditText
+                android:id="@+id/rl_input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="@string/rl_hint_password"/>
+            <EditText
+                android:id="@+id/rl_input_password_again"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="@string/rl_hint_password_again"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3">
+                <Button
+                    android:id="@+id/rl_bt_pick_date"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/rl_hint_birth_date"
+                    android:onClick="pickDate"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:id="@+id/rl_text_date"
+                    android:text=""
+                    android:textSize="25sp"
+                    android:gravity="center"
+                    android:layout_width="0dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+
+            </LinearLayout>
+            <RadioGroup
+                android:id="@+id/rl_radio_group_gender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="textPersonName"
-                android:hint="@string/rl_hint_last_name"/>
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rl_radio_button_male"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rl_radio_button_male"/>
+                <RadioButton
+                    android:id="@+id/rl_radio_button_female"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rl_radio_button_female"/>
+            </RadioGroup>
 
+            <EditText
+                android:id="@+id/rl_input_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="@string/rl_hint_phone"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="3">
+                <Button
+                    android:id="@+id/rl_bt_pick_image"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/rl_bt_pick_image"
+                    android:onClick="pickImage"
+                    android:layout_weight="1"/>
+                <ImageView
+                    android:id="@+id/rl_iv_image"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="2"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/rl_bt_register"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:padding="12dp"
+                android:onClick="submitRegistration"
+                android:text="@string/bt_register"/>
+
+            <RadioGroup
+                android:id="@+id/rl_radio_group_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rl_radio_button_student"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rl_radio_button_student"/>
+                <RadioButton
+                    android:id="@+id/rl_radio_button_teacher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rl_radio_button_teacher"/>
+            </RadioGroup>
         </LinearLayout>
+    </ScrollView>
+    <ProgressBar
+        android:id="@+id/pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"/>
 
-        <EditText
-            android:id="@+id/rl_input_username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="@string/rl_hint_username"/>
-
-        <EditText
-            android:id="@+id/rl_input_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:hint="@string/rl_hint_email"/>
-
-        <EditText
-            android:id="@+id/rl_input_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="@string/rl_hint_password"/>
-        <EditText
-            android:id="@+id/rl_input_password_again"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:hint="@string/rl_hint_password_again"/>
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/rl_hint_birth_date"/>
-        <RadioGroup
-            android:id="@+id/rl_radio_group_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rl_radio_button_male"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rl_radio_button_female"/>
-        </RadioGroup>
-
-        <EditText
-            android:id="@+id/rl_input_phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:hint="@string/rl_hint_phone"/>
-
-        <Button
-            android:id="@+id/rl_bt_register"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:padding="12dp"
-            android:text="@string/bt_register"/>
-
-        <RadioGroup
-            android:id="@+id/rl_radio_group_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rl_radio_button_student"/>
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rl_radio_button_teacher"/>
-        </RadioGroup>
-    </LinearLayout>
 </RelativeLayout>

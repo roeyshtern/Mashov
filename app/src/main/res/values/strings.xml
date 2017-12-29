@@ -13,5 +13,20 @@
     <string name="rl_radio_button_female">female</string>
     <string name="rl_radio_button_student">student</string>
     <string name="rl_radio_button_teacher">teacher</string>
+    <string name="rl_bt_pick_image">Pick image</string>
     <string name="rl_hint_birth_date">Pick birth date</string>
+    <string name="error_empty">You must fill this field</string>
+    <string name="error_too_long">This field can\'t be more than 15 chars</string>
+    <string name="error_email_double_dots">Invalid email address, Cannot contain double dots</string>
+    <string name="error_email_too_much_at">Invalid email address, Cannot contain more than one \'@\' sign</string>
+    <string name="error_email_must_1_at">Invalid email address, Must contain at least 1 \'@\'</string>
+    <string name="error_email_must_have_dot_after_at">Invalid email address, Must contain at least 1 dot after the \'@\' sign</string>
+    <string name="error_password_again_not_match">The passwords must be equal</string>
+    <string name="error_password_too_short">The password must be at least 5 chars</string>
+    <string name="error_date_not_picked">You must pick a date of birth</string>
+    <string name="error_phone_only_digits">Invalid phone number, Must contain only digits</string>
+    <string name="error_phone_must_10_digits">Invalid phone number, Must be 10 digits exactly</string>
+    <string name="error_username_used">This username is already in use</string>
+    <string name="error_email_used">This email address is already in use</string>
+    <string name="error_phone_used">This phone number already in use</string>
 </resources>
