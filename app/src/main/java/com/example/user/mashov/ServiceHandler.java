@@ -10,10 +10,13 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public abstract class ServiceHandler extends Activity {
+import java.lang.*;
+
+public abstract class ServiceHandler extends AppCompatActivity {
 
     public static final String BROADCASTRECEIVER_ACTION = "ServiceHandler.intent.action.RESULT_RECEIVED";
     public WebReceiever webReceiever;
@@ -61,7 +64,7 @@ public abstract class ServiceHandler extends Activity {
 
     }
 
-    private boolean isMyServiceRunning(Class<?> service)
+    private boolean isMyServiceRunning(java.lang.Class<?> service)
     {
         ActivityManager manager = (ActivityManager)getSystemService(ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo serviceInfo : manager.getRunningServices(Integer.MAX_VALUE))

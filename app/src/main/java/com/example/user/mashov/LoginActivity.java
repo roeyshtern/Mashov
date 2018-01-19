@@ -1,18 +1,22 @@
 package com.example.user.mashov;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 
 import java.util.HashMap;
 
@@ -36,13 +40,28 @@ public class LoginActivity extends ServiceHandler implements IJson<String> {
     @Override
     public void onReceiveResult(String response) {
         progressBar.setVisibility(View.GONE);
-        switch (getResponseCode(response))
+        JsonObject<LoginAndRegisterANS> jsonObject = null;
+        int responseCode = 0;
+        Gson gson = new Gson();
+        try {
+            jsonObject = gson.fromJson(response, new TypeToken<JsonObject<LoginAndRegisterANS>>() {}.getType());
+        }catch (Exception e)
+        {
+
+        }
+        if(jsonObject!=null)
+        {
+            responseCode = jsonObject.data.responseCode;
+        }
+        switch (responseCode)
         {
             case 100:
             {
-                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
-                i.putExtra("username", et_input_username.getText().toString());
-                startActivity(i);
+                Intent intentHomeActivity = new Intent(LoginActivity.this, HomeActivity.class);
+                intentHomeActivity.putExtra("LoginAndRegisterANS", response);
+                SaveSharedPreference sp = new SaveSharedPreference();
+                sp.setUser(getApplicationContext(), response);
+                startActivity(intentHomeActivity);
                 break;
             }
             case 201:
@@ -63,7 +82,7 @@ public class LoginActivity extends ServiceHandler implements IJson<String> {
             default:
             {
                 AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-                dlgAlert.setMessage("Unknown error");
+                dlgAlert.setMessage(response);
                 dlgAlert.setTitle("Login Failed");
                 dlgAlert.setPositiveButton("Ok",
                         new DialogInterface.OnClickListener() {
@@ -76,21 +95,7 @@ public class LoginActivity extends ServiceHandler implements IJson<String> {
                 break;
             }
         }
-        Log.i("responseFromServer:", response);
-    }
-    public int getResponseCode(String json)
-    {
-        int responseCode = 0;
-        try {
-            JSONObject obj = new JSONObject(json);
-            if(obj.getString("command").equals("loginANS")) {
-                responseCode = Integer.parseInt(obj.getJSONObject("data").getString("responseCode"));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return responseCode;
+        Log.i("responseFromServer:",  "login activity " + response);
     }
 
     private void init()
@@ -125,6 +130,22 @@ public class LoginActivity extends ServiceHandler implements IJson<String> {
         //startActivity(i);
 
     }
+    public class SaveSharedPreference
+    {
+        static final String PREF_USER_DETAILS= "user_details";
+
+        public SharedPreferences getSharedPreferences(Context ctx) {
+            return PreferenceManager.getDefaultSharedPreferences(ctx);
+        }
+
+        public void setUser(Context ctx, String userDetails)
+        {
+            SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+            editor.putString(PREF_USER_DETAILS, userDetails);
+            editor.commit();
+        }
+
+    }
     private boolean isPasswordValid()
     {
         boolean flag = true;
@@ -152,13 +173,25 @@ public class LoginActivity extends ServiceHandler implements IJson<String> {
     }
     @Override
     public String makeJson(HashMap<String, String> params) {
+        JsonObject<LoginREQ> jsonObject = new JsonObject<>();
+        jsonObject.command = "loginANS";
+        LoginREQ loginREQ = new LoginREQ();
+        loginREQ.username = params.get("username");
+        loginREQ.password = params.get("password");
+        jsonObject.data = loginREQ;
+
+        Gson gson = new Gson();
+        String json = gson.toJson(jsonObject, new TypeToken<JsonObject<LoginREQ>>(){}.getType());
+
+        /*
         String command = "{";
         command+="\"command\":\"login\",";
         command+="\"data\":{";
-        command+="\"username\":\"" + params.get("username") + " \",";
-        command+="\"password\":\"" + params.get("password") + " \"";
+        command+="\"username\":\"" + params.get("username") + "\",";
+        command+="\"password\":\"" + params.get("password") + "\"";
         command+="}";
         command+="}";
-        return command;
+        */
+        return json;
     }
 }

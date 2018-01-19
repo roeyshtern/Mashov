@@ -155,15 +155,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <RadioButton
-                    android:id="@+id/rl_radio_button_student"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rl_radio_button_student"/>
-                <RadioButton
                     android:id="@+id/rl_radio_button_teacher"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/rl_radio_button_teacher"/>
+                <RadioButton
+                    android:id="@+id/rl_radio_button_student"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/rl_radio_button_student"/>
             </RadioGroup>
         </LinearLayout>
     </ScrollView>

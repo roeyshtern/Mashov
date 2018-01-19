@@ -10,11 +10,13 @@ import android.util.Log;
 import java.util.HashMap;
 
 /**
- * Created by User on 12/26/17.
+ * Created by LoginAndRegisterANS on 12/26/17.
  */
 public class WebService extends Service {
 
-    private final static String url = "http://10.0.0.20:8080/Mashov/AppHandler";
+    private final static String url = "http://172.20.3.241:8080/Mashov/AppHandler";
+    private final static String url1 = "http://172.20.3.137:8080/test/MyServlet";
+    private final static String url2 = "http://192.168.1.101:8080/test/MyServlet";
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -37,7 +39,7 @@ public class WebService extends Service {
         final String[] responseRet = new String[1];
         HashMap<String, String> keyValueParams = new HashMap<String, String>();
         keyValueParams.put(command,jsonRequest);
-        Thread connectionThread = HttpUtility.newRequest(url,HttpUtility.METHOD_POST,keyValueParams, new HttpUtility.Callback() {
+        Thread connectionThread = HttpUtility.newRequest(url2,HttpUtility.METHOD_POST,keyValueParams, new HttpUtility.Callback() {
             @Override
             public void OnSuccess(String response) {
                 responseRet[0] = response;
@@ -48,8 +50,8 @@ public class WebService extends Service {
 
             @Override
             public void OnError(int status_code, String message) {
-                Log.i("responseFromServer:", message);
-                responseRet[0] = "";
+                Log.i("responseFromServer:", "error web service " + message);
+                responseRet[0] = message;
                 Intent intent = new Intent(ServiceHandler.BROADCASTRECEIVER_ACTION);
                 intent.putExtra("resopnse",responseRet[0]);
                 sendBroadcast(intent);

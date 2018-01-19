@@ -29,4 +29,8 @@
     <string name="error_username_used">This username is already in use</string>
     <string name="error_email_used">This email address is already in use</string>
     <string name="error_phone_used">This phone number already in use</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_classes">Classes</string>
+    <string name="cfl_header">Classes</string>
 </resources>

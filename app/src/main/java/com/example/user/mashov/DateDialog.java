@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 /**
- * Created by User on 12/21/17.
+ * Created by LoginAndRegisterANS on 12/21/17.
  */
 
 public class DateDialog  extends DialogFragment implements DatePickerDialog.OnDateSetListener {
@@ -27,7 +27,7 @@ public class DateDialog  extends DialogFragment implements DatePickerDialog.OnDa
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         TextView text_date = (TextView)getActivity().findViewById(R.id.rl_text_date);
-        String a = String.format("%1$04d-%2$02d-%3$02d", year, month,dayOfMonth);
+        String a = String.format("%1$04d-%2$02d-%3$02d", year, month+1,dayOfMonth);
         text_date.setText(a);
     }
 }

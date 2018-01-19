@@ -2,8 +2,10 @@ package com.example.user.mashov;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -12,6 +14,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +30,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +42,7 @@ import java.util.HashMap;
 
 
 /**
- * Created by User on 12/10/17.
+ * Created by LoginAndRegisterANS on 12/10/17.
  */
 
 public class RegisterActivity extends ServiceHandler implements IJson<String>{
@@ -84,30 +90,18 @@ public class RegisterActivity extends ServiceHandler implements IJson<String>{
             requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_READ_PERMISSION);
         }
     }
-    public int getResponseCode(String json)
-    {
-        int responseCode = 0;
-        try {
-            JSONObject obj = new JSONObject(json);
-            if(obj.get("command").equals("registrationAns")) {
-                responseCode = obj.getJSONObject("data").getInt("responseCode");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return responseCode;
-    }
     @Override
     public void onReceiveResult(String response) {
         progressBar.setVisibility(View.GONE);
-        switch (getResponseCode(response))
+        Gson gson = new Gson();
+        JsonObject<LoginAndRegisterANS> jsonObject = gson.fromJson(response, new TypeToken<JsonObject<LoginAndRegisterANS>>(){}.getType());
+        switch (jsonObject.data.responseCode)
         {
             case 105:
             {
                 Toast.makeText(this, "Register successfully!", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(i);
+                Intent intentLoginActivity = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intentLoginActivity);
                 break;
             }
             case 202:
@@ -131,7 +125,7 @@ public class RegisterActivity extends ServiceHandler implements IJson<String>{
             default:
             {
                 AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);
-                dlgAlert.setMessage("Unknown error");
+                dlgAlert.setMessage(response);
                 dlgAlert.setTitle("Registeration Failed");
                 dlgAlert.setPositiveButton("Ok",
                         new DialogInterface.OnClickListener() {
@@ -239,7 +233,7 @@ public class RegisterActivity extends ServiceHandler implements IJson<String>{
             params.put("password", et_input_password.getText().toString());
             params.put("gender", Integer.toString(rg_gender.indexOfChild(findViewById(rg_gender.getCheckedRadioButtonId()))));
             params.put("phoneNum", et_input_phone.getText().toString());
-            params.put("type", Integer.toString(rg_type.indexOfChild(findViewById(rg_type.getCheckedRadioButtonId()))));
+            params.put("type", Integer.toString(rg_type.indexOfChild(findViewById(rg_type.getCheckedRadioButtonId()))+2));
             params.put("birthday", text_date.getText().toString());
 
             //get photo in base64
@@ -255,8 +249,9 @@ public class RegisterActivity extends ServiceHandler implements IJson<String>{
             }
             byte[] byteArrayImage = baos.toByteArray();
             Log.i("responseFromServer:", Base64.encodeToString(byteArrayImage, Base64.DEFAULT));
+
             //params.put("image", Base64.encodeToString(byteArrayImage, Base64.DEFAULT));
-            params.put("image", "");
+            params.put("image", bytesToHex(byteArrayImage));
 
             String json = makeJson(params);
             try{
@@ -270,6 +265,16 @@ public class RegisterActivity extends ServiceHandler implements IJson<String>{
 
             Log.i("responseFromServer:", json);
         }
+    }
+    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for ( int j = 0; j < bytes.length; j++ ) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        return new String(hexChars);
     }
     private boolean isFieldEmpty(EditText et)
     {
@@ -502,21 +507,41 @@ public class RegisterActivity extends ServiceHandler implements IJson<String>{
     }
     @Override
     public String makeJson(HashMap<String, String> params) {
+        JsonObject<RegisterREQ> jsonObject = new JsonObject<>();
+        jsonObject.command = "signupPrivateUser";
+        RegisterREQ registerREQ = new RegisterREQ();
+        registerREQ.firstName = params.get("firstName");
+        registerREQ.lastName = params.get("lastName");
+        registerREQ.username = params.get("username");
+        registerREQ.birthday = params.get("birthday");
+        registerREQ.email = params.get("email");
+        registerREQ.password = params.get("password");
+        registerREQ.phoneNum = params.get("phoneNum");
+        registerREQ.gender = Integer.parseInt(params.get("gender"));
+        registerREQ.image = params.get("image");
+        registerREQ.type = Integer.parseInt(params.get("type"));
+        jsonObject.data = registerREQ;
+
+        Gson gson = new Gson();
+        String json = gson.toJson(jsonObject, new TypeToken<JsonObject<RegisterREQ>>(){}.getType());
+        /*
         String command = "{";
-        command+="\"command\":\"signup\",";
+        command+="\"command\":\"signupPrivateUser\",";
         command+="\"data\":{";
-        command+="\"firstName\":\"" + params.get("firstName") + " \",";
-        command+="\"lastName\":\"" + params.get("lastName") + " \",";
-        command+="\"username\":\"" + params.get("username") + " \",";
-        command+="\"birthday\":\"" + params.get("birthday") + " \",";
-        command+="\"email\":\"" + params.get("email") + " \",";
-        command+="\"password\":\"" + params.get("password") + " \",";
-        command+="\"phoneNum\":\"" + params.get("phoneNum") + " \",";
-        command+="\"gender\":\"" + params.get("gender") + " \",";
-        command+="\"image\":\"" + params.get("image") + " \",";
-        command+="\"type\":\"" + params.get("type") + " \"";
+        command+="\"firstName\":\"" + params.get("firstName") + "\",";
+        command+="\"lastName\":\"" + params.get("lastName") + "\",";
+        command+="\"username\":\"" + params.get("username") + "\",";
+        command+="\"birthday\":\"" + params.get("birthday") + "\",";
+        command+="\"email\":\"" + params.get("email") + "\",";
+        command+="\"password\":\"" + params.get("password") + "\",";
+        command+="\"phoneNum\":\"" + params.get("phoneNum") + "\",";
+        command+="\"gender\":\"" + params.get("gender") + "\",";
+        command+="\"image\":\"" + params.get("image") + "\",";
+        command+="\"type\":\"" + params.get("type") + "\"";
         command+="}";
         command+="}";
-        return command;
+        */
+
+        return json;
     }
 }
