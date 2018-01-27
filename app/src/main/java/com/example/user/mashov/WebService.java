@@ -14,8 +14,8 @@ import java.util.HashMap;
  */
 public class WebService extends Service {
 
-    private final static String url = "http://172.20.3.241:8080/Mashov/AppHandler";
-    private final static String url1 = "http://172.20.3.137:8080/test/MyServlet";
+    private final static String url = "http://172.20.2.5:8080/Mashov/AppHandler";
+    private final static String url1 = "http://172.20.2.2:8080/test/MyServlet";
     private final static String url2 = "http://192.168.1.101:8080/test/MyServlet";
 
     @Override
@@ -39,7 +39,7 @@ public class WebService extends Service {
         final String[] responseRet = new String[1];
         HashMap<String, String> keyValueParams = new HashMap<String, String>();
         keyValueParams.put(command,jsonRequest);
-        Thread connectionThread = HttpUtility.newRequest(url2,HttpUtility.METHOD_POST,keyValueParams, new HttpUtility.Callback() {
+        Thread connectionThread = HttpUtility.newRequest(url1,HttpUtility.METHOD_POST,keyValueParams, new HttpUtility.Callback() {
             @Override
             public void OnSuccess(String response) {
                 responseRet[0] = response;

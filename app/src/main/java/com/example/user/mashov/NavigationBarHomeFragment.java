@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -26,6 +28,7 @@ public class NavigationBarHomeFragment extends Fragment {
     String jsonOfUserDetails;
     TextView tv_first_name;
     TextView tv_username;
+    ListView listview_posts;
 
     public static Fragment newInstance(String jsonOfUserDetailsParameter) {
         Fragment frag = new NavigationBarHomeFragment();
@@ -75,6 +78,19 @@ public class NavigationBarHomeFragment extends Fragment {
                 break;
             }
         }
+        PostsListAdapter postsListAdapter = new PostsListAdapter(getActivity(),jsonObject.data.posts);
+        listview_posts = (ListView)view.findViewById(R.id.hfl_list_view);
+        if(jsonObject.data.posts==null)
+        {
+            String[] arr = {};
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1,android.R.id.text1, arr);
+            listview_posts.setAdapter(adapter);
+        }
+        else
+        {
+            listview_posts.setAdapter(postsListAdapter);
+        }
+
 
 
     }

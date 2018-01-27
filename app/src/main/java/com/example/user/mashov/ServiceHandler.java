@@ -28,6 +28,7 @@ public abstract class ServiceHandler extends AppCompatActivity {
 
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -49,6 +50,7 @@ public abstract class ServiceHandler extends AppCompatActivity {
 
             @Override
             public void onServiceDisconnected(ComponentName name) {
+                unbindService(this);
 
             }
         }, Context.BIND_AUTO_CREATE);

@@ -85,6 +85,7 @@ public class HomeActivity extends ServiceHandler {
         switch (item.getItemId()) {
             case R.id.hl_navigation_bar_settings:
                 Toast.makeText(this, "settings", Toast.LENGTH_SHORT).show();
+                frag = NavigationBarSettingsFragment.newInstance();
                 break;
             case R.id.hl_navigation_bar_home:
                 Toast.makeText(this, "home", Toast.LENGTH_SHORT).show();

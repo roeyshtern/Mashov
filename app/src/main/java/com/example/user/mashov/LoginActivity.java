@@ -174,7 +174,7 @@ public class LoginActivity extends ServiceHandler implements IJson<String> {
     @Override
     public String makeJson(HashMap<String, String> params) {
         JsonObject<LoginREQ> jsonObject = new JsonObject<>();
-        jsonObject.command = "loginANS";
+        jsonObject.command = "login";
         LoginREQ loginREQ = new LoginREQ();
         loginREQ.username = params.get("username");
         loginREQ.password = params.get("password");
